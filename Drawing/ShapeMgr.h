@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "Shape.h"
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 using namespace sf;
@@ -11,16 +13,13 @@ using namespace sf;
 class ShapeMgr
 {
 private:
-	
+	vector <DrawingShape*> shapes;
+
 public:
-	ShapeMgr()
-	{
-		
-	}
-
-	void addShape(Vector2f pos, ShapeEnum whichShape, Color color)
-	{
-
-	}
-
+	ShapeMgr();
+	~ShapeMgr();
+	void addShape(Vector2f pos, ShapeEnum whichShape, Color color);
+	vector <DrawingShape*> getShapes();
+	void fileRead(fstream &file);
+	void fileWrite(fstream &file);
 };

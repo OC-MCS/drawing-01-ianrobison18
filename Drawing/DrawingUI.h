@@ -10,20 +10,12 @@ using namespace sf;
 class DrawingUI
 {
 private:
+	RectangleShape drawingArea;
 
 public:
-	DrawingUI(Vector2f p)
-	{
-	}
-
-	void draw(RenderWindow& win, ShapeMgr *mgr)
-	{
-	}
-	
-	bool isMouseInCanvas(Vector2f mousePos)
-	{
-		return false; // just to make it compile
-	}
+	DrawingUI(Vector2f p);
+	void draw(RenderWindow& win, ShapeMgr *mgr);
+	bool isMouseInCanvas(Vector2f mousePos);
 
 };
 

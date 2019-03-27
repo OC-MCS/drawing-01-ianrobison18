@@ -11,9 +11,11 @@ using namespace std;
 #include "DrawingUI.h"
 using namespace sf;
 
+
 // Finish this code. Other than where it has comments telling you to 
 // add code, you shouldn't need to add any logic to main to satisfy
 // the requirements of this programming assignment
+settings fileRead(fstream &file);
 
 int main()
 {
@@ -23,12 +25,22 @@ int main()
 	RenderWindow window(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Drawing");
 	window.setFramerateLimit(60);
 
-	SettingsMgr settingsMgr(Color::Blue, ShapeEnum::CIRCLE);
+	fstream infile;
+	infile.open("shapes.bin", ios::binary | ios::in);
+	if (!infile)
+	{
+		cout << "Error opening file";
+		exit(1);
+	}
+	settings curSettings = fileRead(infile);
+	SettingsMgr settingsMgr(curSettings.lastColor, curSettings.lastShape);
 	SettingsUI  settingsUI(&settingsMgr); 
 	ShapeMgr    shapeMgr;
-	DrawingUI   drawingUI(Vector2f(200, 50));
+	DrawingUI   drawingUI(Vector2f(250, 50));
 	
-	// ********* Add code here to make the managers read from shapes file (if the file exists)
+	
+	shapeMgr.fileRead(infile);
+	infile.close();
 
 	while (window.isOpen()) 
 	{
@@ -38,14 +50,23 @@ int main()
 			if (event.type == Event::Closed)
 			{
 				window.close();
-				// ****** Add code here to write all data to shapes file
+				fstream outfile;
+				outfile.open("shapes.bin", ios::binary | ios::out);
+				if (!outfile)
+				{
+					cout << "Error opening file";
+					exit(1);
+				}
+				settingsMgr.fileWrite(outfile);
+				shapeMgr.fileWrite(outfile);
+				outfile.close();
 			}
 			else if (event.type == Event::MouseButtonReleased)
 			{
 				// maybe they just clicked on one of the settings "buttons"
 				// check for this and handle it.
 				Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
-				settingsUI.handleMouseUp(mousePos);
+				settingsUI.handleMouseUp(mousePos, settingsMgr);
 			}
 			else if (event.type == Event::MouseMoved && Mouse::isButtonPressed(Mouse::Button::Left))
 			{
@@ -75,4 +96,13 @@ int main()
 	} // end body of animation loop
 
 	return 0;
+}
+
+settings fileRead(fstream &file)
+{
+	settings lastSettings;
+
+	file.read(reinterpret_cast<char*>(&lastSettings), sizeof(settings));
+
+	return lastSettings;
 }
