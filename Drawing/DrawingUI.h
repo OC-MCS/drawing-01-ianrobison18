@@ -10,7 +10,7 @@ using namespace sf;
 class DrawingUI
 {
 private:
-	RectangleShape drawingArea;
+	RectangleShape drawingArea; //The canvas area
 
 public:
 	DrawingUI(Vector2f p);

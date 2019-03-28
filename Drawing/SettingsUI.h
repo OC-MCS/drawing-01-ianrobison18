@@ -10,9 +10,11 @@ using namespace sf;
 class SettingsUI
 {
 private:
-	CircleShape redButton, blueButton, yellowButton,
-		circleButton;
-	RectangleShape squareButton;
+	CircleShape redButton,	//red settings button
+		blueButton,			//blue settings button
+		yellowButton,		//yellow settings button
+		circleButton;		//circle settings button
+	RectangleShape squareButton;	//SqUaRe SeTtInGs BuTtOn
 
 public:
 	SettingsUI(SettingsMgr *mgr);

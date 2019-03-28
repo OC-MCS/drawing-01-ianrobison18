@@ -1,5 +1,5 @@
 //================================================
-// YOUR NAME GOES HERE <-----------------  
+//Ian Robison
 //================================================
 #include <iostream>
 #include <fstream>
@@ -22,23 +22,24 @@ int main()
 	const int WINDOW_WIDTH = 800;
 	const int WINDOW_HEIGHT = 600;
 
-	RenderWindow window(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Drawing");
+	RenderWindow window(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Drawing"); //the render window
 	window.setFramerateLimit(60);
 
-	fstream infile;
+	//Read in the settings from the file
+	fstream infile; //input file object
 	infile.open("shapes.bin", ios::binary | ios::in);
 	if (!infile)
 	{
 		cout << "Error opening file";
 		exit(1);
 	}
-	settings curSettings = fileRead(infile);
-	SettingsMgr settingsMgr(curSettings.lastColor, curSettings.lastShape);
-	SettingsUI  settingsUI(&settingsMgr); 
-	ShapeMgr    shapeMgr;
-	DrawingUI   drawingUI(Vector2f(250, 50));
+	settings curSettings = fileRead(infile); //the current settings read from the file
+	SettingsMgr settingsMgr(curSettings.lastColor, curSettings.lastShape); //initializing settings from the settings read
+	SettingsUI  settingsUI(&settingsMgr); //displaying the settings area
+	ShapeMgr    shapeMgr; //what will contain every shape
+	DrawingUI   drawingUI(Vector2f(250, 50)); //drawing area
 	
-	
+	//Read in the shapes of the file
 	shapeMgr.fileRead(infile);
 	infile.close();
 
@@ -50,7 +51,8 @@ int main()
 			if (event.type == Event::Closed)
 			{
 				window.close();
-				fstream outfile;
+				//write out the settings and the shapes to the file
+				fstream outfile; //output file object
 				outfile.open("shapes.bin", ios::binary | ios::out);
 				if (!outfile)
 				{
@@ -65,13 +67,14 @@ int main()
 			{
 				// maybe they just clicked on one of the settings "buttons"
 				// check for this and handle it.
-				Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
+				//Handle releasing the mouse button and check if over any settings buttons
+				Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window)); //the mouse's current position
 				settingsUI.handleMouseUp(mousePos, settingsMgr);
 			}
 			else if (event.type == Event::MouseMoved && Mouse::isButtonPressed(Mouse::Button::Left))
 			{
-				
-				Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
+				//handling of user is trying to draw in canvas
+				Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window)); //the mouse's current position
 				// check to see if mouse is in the drawing area
 				if (drawingUI.isMouseInCanvas(mousePos))
 				{
@@ -98,10 +101,16 @@ int main()
 	return 0;
 }
 
+/*===========================
+Name: fileRead
+Purpose: reads settings from file
+Parameters: file
+Returns: settings struct
+===========================*/
 settings fileRead(fstream &file)
 {
-	settings lastSettings;
-
+	settings lastSettings; //an object to read the settings
+	
 	file.read(reinterpret_cast<char*>(&lastSettings), sizeof(settings));
 
 	return lastSettings;

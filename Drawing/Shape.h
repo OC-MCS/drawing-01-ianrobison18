@@ -8,9 +8,9 @@ using namespace sf;
 enum ShapeEnum { CIRCLE, SQUARE };
 struct ShapeData
 {
-	ShapeEnum shape;
-	Color color;
-	Vector2f pos;
+	ShapeEnum shape;	//shape of the object
+	Color color;		//color of the shape
+	Vector2f pos;		//position of the shape
 };
 
 // DrawingShape should be an abstract base class 
@@ -18,9 +18,9 @@ struct ShapeData
 class DrawingShape 
 {
 private:
-	ShapeEnum shape;
-	Color color;
-	Vector2f pos;
+	ShapeEnum shape;	//shape of the object
+	Color color;		//color of the shape
+	Vector2f pos;		//position of the shape
 
 public:
 	DrawingShape();
@@ -36,7 +36,7 @@ public:
 class Circle : public DrawingShape
 {
 private:
-	CircleShape circle;
+	CircleShape circle;	//circle object
 
 public:
 	Circle(ShapeEnum, Color, Vector2f);
@@ -48,7 +48,7 @@ public:
 class Square : public DrawingShape
 {
 private:
-	RectangleShape square;
+	RectangleShape square; //rectangle object
 
 public:
 	Square(ShapeEnum, Color, Vector2f);

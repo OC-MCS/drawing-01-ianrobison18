@@ -13,7 +13,7 @@ using namespace sf;
 class ShapeMgr
 {
 private:
-	vector <DrawingShape*> shapes;
+	vector <DrawingShape*> shapes; //vector containing all of the drawn shapes
 
 public:
 	ShapeMgr();

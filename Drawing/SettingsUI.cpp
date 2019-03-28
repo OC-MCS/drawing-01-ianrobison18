@@ -11,60 +11,74 @@ xpos = 65,
 dY = 60;
 int ypos = 60;
 
+/*===========================
+Name: SettingsUI
+Purpose: Initializing buttones
+Parameters: settingsMgr
+Returns: nothing
+===========================*/
 SettingsUI::SettingsUI(SettingsMgr *mgr)
 {
+	//sets current colors and shapes
 	if (mgr->getCurColor() == Color::Blue)
 	{
 		blueButton.setFillColor(Color::Blue);
-		redButton.setFillColor(Color::Transparent);
-		yellowButton.setFillColor(Color::Transparent);
+		redButton.setFillColor(Color::Black);
+		yellowButton.setFillColor(Color::Black);
 	}
 	else if (mgr->getCurColor() == Color::Red)
 	{
-		blueButton.setFillColor(Color::Transparent);
+		blueButton.setFillColor(Color::Black);
 		redButton.setFillColor(Color::Red);
-		yellowButton.setFillColor(Color::Transparent);
+		yellowButton.setFillColor(Color::Black);
 	}
 	else if (mgr->getCurColor() == Color::Yellow)
 	{
-		blueButton.setFillColor(Color::Transparent);
-		redButton.setFillColor(Color::Transparent);
+		blueButton.setFillColor(Color::Black);
+		redButton.setFillColor(Color::Black);
 		yellowButton.setFillColor(Color::Yellow);
 	}
 
 	if (mgr->getCurShape() == CIRCLE)
 	{
 		circleButton.setFillColor(Color::White);
-		squareButton.setFillColor(Color::Transparent);
+		squareButton.setFillColor(Color::Black);
 	}
 	else if (mgr->getCurShape() == SQUARE)
 	{
-		circleButton.setFillColor(Color::Transparent);
+		circleButton.setFillColor(Color::Black);
 		squareButton.setFillColor(Color::White);
 	}
 }
 
+/*===========================
+Name: handleMouseUp
+Purpose: handles when the mouse clicks a button
+Parameters: mouse pos, current settings
+Returns: nothing
+===========================*/
 void SettingsUI::handleMouseUp(Vector2f mouse, SettingsMgr &settings)
 {
+	//draws buttons and sets color based on settings
 	if (blueButton.getGlobalBounds().contains(mouse))
 	{
 		settings.setCurColor(Color::Blue);
 		blueButton.setFillColor(Color::Blue);
-		redButton.setFillColor(Color::Transparent);
-		yellowButton.setFillColor(Color::Transparent);
+		redButton.setFillColor(Color::Black);
+		yellowButton.setFillColor(Color::Black);
 	}
 	else if (redButton.getGlobalBounds().contains(mouse))
 	{
 		settings.setCurColor(Color::Red);
-		blueButton.setFillColor(Color::Transparent);
+		blueButton.setFillColor(Color::Black);
 		redButton.setFillColor(Color::Red);
-		yellowButton.setFillColor(Color::Transparent);
+		yellowButton.setFillColor(Color::Black);
 	}
 	else if (yellowButton.getGlobalBounds().contains(mouse))
 	{
 		settings.setCurColor(Color::Yellow);
-		blueButton.setFillColor(Color::Transparent);
-		redButton.setFillColor(Color::Transparent);
+		blueButton.setFillColor(Color::Black);
+		redButton.setFillColor(Color::Black);
 		yellowButton.setFillColor(Color::Yellow);
 	}
 
@@ -72,25 +86,33 @@ void SettingsUI::handleMouseUp(Vector2f mouse, SettingsMgr &settings)
 	{
 		settings.setCurShape(CIRCLE);
 		circleButton.setFillColor(Color::White);
-		squareButton.setFillColor(Color::Transparent);
+		squareButton.setFillColor(Color::Black);
 	}
 	else if (squareButton.getGlobalBounds().contains(mouse))
 	{
 		settings.setCurShape(SQUARE);
-		circleButton.setFillColor(Color::Transparent);
+		circleButton.setFillColor(Color::Black);
 		squareButton.setFillColor(Color::White);
 	}
 }
 
+/*===========================
+Name: Draw
+Purpose: draws the settings area
+Parameters: render window
+Returns: nothing
+===========================*/
 void SettingsUI::draw(RenderWindow& win)
 {
-	Font font;
+	//draws the settings area
+	Font font; //font for the settings area
 	font.loadFromFile("C:\\Windows\\Fonts\\comic.ttf");
 
-	Text colorHeading("Drawing Colors", font, 20);
+	Text colorHeading("Drawing Colors", font, 20); //heading for the colors selection
 	colorHeading.setPosition(30, 25);
 
-	Vector2f pos(xpos, ypos);
+	//draws the color buttons
+	Vector2f pos(xpos, ypos); //position of buttons
 	blueButton.setPosition(pos);
 	blueButton.setRadius(RAD);
 	blueButton.setOutlineThickness(THICC);
@@ -109,9 +131,10 @@ void SettingsUI::draw(RenderWindow& win)
 	yellowButton.setOutlineColor(Color::Yellow);
 
 	pos.y += dY + 20;
-	Text shapeHeading("Shape Select", font, 20);
+	Text shapeHeading("Shape Select", font, 20); //heading for the shapes selection
 	shapeHeading.setPosition(pos);
 
+	//draws shape buttons
 	pos.y += dY;
 	circleButton.setPosition(pos);
 	circleButton.setRadius(RAD);
@@ -124,6 +147,7 @@ void SettingsUI::draw(RenderWindow& win)
 	squareButton.setOutlineThickness(THICC);
 	squareButton.setOutlineColor(Color::White);
 
+	//renders everything
 	win.draw(colorHeading);
 	win.draw(blueButton);
 	win.draw(redButton);
